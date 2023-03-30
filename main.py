@@ -3,6 +3,8 @@ import re
 import requests
 from lxml import html
 
+import send_email
+
 
 def get_html():
     res = requests.get('https://help.openai.com/en/articles/6825453-chatgpt-release-notes')
@@ -25,10 +27,9 @@ def xpath():
         old_note = f.read()
         if old_note != lastest_note:
             print('new note')
+            send_email.send(title='ChatGPT New Release Note', content=lastest_note)
             with open('old.txt', 'w') as f1:
                 f1.write(lastest_note)
-        else:
-            print('no new note')
 
 
 if __name__ == '__main__':
